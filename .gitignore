@@ -1,0 +1,14 @@
+.claude/
+*.zip
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# never commit keys, secrets or tools
+coinlaundry
+coinlaundry.pub
+id_*
+*.pem
+*.key
+.env*
+*.exe
