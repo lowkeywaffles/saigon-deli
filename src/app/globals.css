@@ -1,0 +1,81 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Saigon Deli: street cart herb green, baguette crust, chili red, crisp paper white */
+@theme inline {
+  --color-background: var(--bg);
+  --color-border: var(--line);
+  --color-bg: var(--bg);
+  --color-bg2: var(--bg-2);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-soft: var(--soft);
+  --color-line: var(--line);
+  --color-herb: var(--herb);
+  --color-herbtext: var(--herb-text);
+  --color-chili: #e03b2f;
+  --color-chilitext: var(--chili-text);
+  --color-crust: #d99a45;
+  --color-tint: var(--tint);
+  --font-display: var(--font-vn), system-ui, sans-serif;
+  --font-sans: var(--font-vn), system-ui, sans-serif;
+  --ease-silk: cubic-bezier(.32, .72, 0, 1);
+  --ease-spring: cubic-bezier(.34, 1.4, .64, 1);
+  --animate-marquee: marquee var(--duration) infinite linear;
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(calc(-100% - var(--gap))); } }
+}
+
+:root {
+  --bg: #fbfaf6; --bg-2: #f1efe6; --card: #ffffff; --ink: #18211c; --soft: #5a645d; --line: rgba(24, 33, 28, .1);
+  --herb: #1f6b45; --herb-text: #1f6b45; --chili-text: #c22f24; --tint: #e3f1e8; --glow: transparent;
+  --glass: rgba(251, 250, 246, .76); --hi: rgba(255, 255, 255, .9); --shadow: rgba(24, 33, 28, .18); --map: none;
+}
+.dark {
+  --bg: #0e1511; --bg-2: #121c16; --card: #17231c; --ink: #eef3ee; --soft: #a2b0a6; --line: rgba(238, 243, 238, .09);
+  --herb: #5cc58f; --herb-text: #7ad5a6; --chili-text: #ff7a6e; --tint: #1c3426; --glow: rgba(255, 140, 60, .55);
+  --glass: rgba(14, 21, 17, .72); --hi: rgba(255, 255, 255, .05); --shadow: rgba(0, 0, 0, .6);
+  --map: invert(.9) hue-rotate(180deg) saturate(.5);
+  color-scheme: dark;
+}
+h1, h2, h3 { font-family: var(--font-display); font-weight: 900; line-height: 1.02; letter-spacing: -.035em; text-wrap: balance; }
+::selection { background: #e03b2f; color: #fff; }
+:focus-visible { outline: 3px solid #d99a45; outline-offset: 3px; border-radius: 10px; }
+/* order-ticket card: punched edges top and bottom */
+.ticket-edge { position: relative; }
+.ticket-edge::before, .ticket-edge::after { content: ""; position: absolute; inset-inline: 22px; height: 10px; background: radial-gradient(circle at 5px 5px, var(--edge, var(--bg)) 4px, transparent 4.5px) 0 0 / 16px 10px repeat-x; }
+.ticket-edge::before { top: -5px; } .ticket-edge::after { bottom: -5px; }
+@keyframes bob { 50% { transform: translateY(-8px) rotate(-1deg); } }
+.bob { animation: bob 5s ease-in-out infinite; }
+@keyframes swing { 25% { transform: rotate(10deg); } 55% { transform: rotate(-7deg); } 80% { transform: rotate(3deg); } }
+.swing { animation: swing 1s ease-in-out; transform-origin: 50% 0; }
+@keyframes thud { 0% { transform: rotate(-12deg) scale(1.6); opacity: 0; } 60% { transform: rotate(-12deg) scale(.92); opacity: 1; } 100% { transform: rotate(-12deg) scale(1); } }
+.thud { animation: thud .5s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes spin { to { transform: rotate(360deg); } }
+.spin { animation: spin 22s linear infinite; }
+
+@layer base {
+  html { overflow-x: clip; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; transition: background-color .5s var(--ease-silk), color .5s var(--ease-silk); }
+  p { text-wrap: pretty; }
+}
+
+body::after { content: ""; position: fixed; inset: 0; z-index: 60; pointer-events: none; opacity: .04; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+.glass { background: var(--glass); backdrop-filter: blur(20px) saturate(1.4); -webkit-backdrop-filter: blur(20px) saturate(1.4); }
+.bezel { padding: 6px; background: var(--bg-2); box-shadow: inset 0 0 0 1px var(--line); }
+
+/* theme change grows out of the switch that was pressed */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-new(root) { animation: grow .6s cubic-bezier(.7, 0, .3, 1); }
+@keyframes grow { from { clip-path: circle(0 at var(--rx, 100%) var(--ry, 0)); } to { clip-path: circle(var(--rr, 150vmax) at var(--rx, 100%) var(--ry, 0)); } }
+
+.rv { opacity: 0; transform: translateY(40px); filter: blur(8px); transition-property: opacity, transform, filter; transition-duration: 1s; transition-timing-function: cubic-bezier(.32, .72, 0, 1); }
+.rv.in { opacity: 1; transform: none; filter: none; }
+@media (prefers-reduced-motion: reduce) {
+  .rv { opacity: 1; transform: none; filter: none; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+@media (prefers-reduced-transparency: reduce) { .glass { background: var(--bg); backdrop-filter: none; } }
