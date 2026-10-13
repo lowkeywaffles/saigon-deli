@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 
-// GitHub Pages serves the site from /sultan-cafe; local dev runs at the root.
+// GitHub Pages serves the site from /<repo-name> (set by the deploy workflow); local dev runs at the root.
 const base = process.env.PAGES_BASE ?? "";
 
 const nextConfig: NextConfig = {

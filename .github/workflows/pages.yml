@@ -22,7 +22,7 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
-          PAGES_BASE: /sultan-cafe
+          PAGES_BASE: /${{ github.event.repository.name }}
       - run: touch out/.nojekyll
       - uses: actions/upload-pages-artifact@v3
         with:
